@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KATHIR.M // Senior Software Engineer — Cloud, Billing &amp; AI Infrastructure</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+            sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            obsidian: '#07080B',
+            surface: '#0E1015',
+            surfaceElev: '#14171F',
+            swissBg: '#F6F7F9',
+            swissSurface: '#FFFFFF',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --bg-primary: #07080B;
+      --bg-surface: rgba(16, 18, 25, 0.78);
+      --bg-card-solid: #0F1118;
+      --border-hairline: rgba(255, 255, 255, 0.09);
+      --border-strong: rgba(255, 255, 255, 0.16);
+      --text-primary: #F4F5F7;
+      --text-secondary: #9CA3AF;
+      --text-muted: #6B7280;
+      --accent-emerald: #10B981;
+      --accent-cyan: #06B6D4;
+      --dot-color: rgba(255, 255, 255, 0.06);
+    }
+
+    html:not(.dark) {
+      --bg-primary: #F4F5F8;
+      --bg-surface: rgba(255, 255, 255, 0.88);
+      --bg-card-solid: #FFFFFF;
+      --border-hairline: rgba(15, 23, 42, 0.09);
+      --border-strong: rgba(15, 23, 42, 0.18);
+      --text-primary: #090D16;
+      --text-secondary: #475569;
+      --text-muted: #64748B;
+      --accent-emerald: #059669;
+      --accent-cyan: #0284C7;
+      --dot-color: rgba(15, 23, 42, 0.07);
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      transition: background-color 0.25s ease, color 0.25s ease;
+      overflow-x: hidden;
+    }
+
+    .bg-blueprint-dots {
+      background-image: radial-gradient(var(--dot-color) 1px, transparent 1px);
+      background-size: 22px 22px;
+    }
+
+    .hero-aurora {
+      background:
+        radial-gradient(ellipse 65% 45% at 22% 8%, rgba(16, 185, 129, 0.14), transparent 70%),
+        radial-gradient(ellipse 55% 40% at 82% 14%, rgba(6, 182, 212, 0.11), transparent 70%);
+    }
+
+    .product-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      backdrop-filter: blur(14px);
+      transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .product-card:hover {
+      border-color: var(--border-strong);
+      box-shadow: 0 18px 42px -18px rgba(16, 185, 129, 0.14);
+    }
+
+    .hairline {
+      border-color: var(--border-hairline);
+    }
+
+    .text-main { color: var(--text-primary); }
+    .text-sub { color: var(--text-secondary); }
+    .text-dim { color: var(--text-muted); }
+
+    .kbd-key {
+      border: 1px solid var(--border-strong);
+      background: rgba(128, 128, 128, 0.08);
+    }
+
+    /* Dedicated Print / PDF Export Layout */
+    @media print {
+      body {
+        background: #FFFFFF !important;
+        color: #111827 !important;
+        font-size: 11pt;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .product-card {
+        background: #FFFFFF !important;
+        border: 1px solid #E5E7EB !important;
+        box-shadow: none !important;
+        break-inside: avoid;
+      }
+      .text-main, .text-sub, .text-dim {
+        color: #111827 !important;
+      }
+      a {
+        text-decoration: none !important;
+        color: #111827 !important;
+      }
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-emerald-500/25 selection:text-emerald-300">
+
+  <!-- Ambient Grid & Aurora -->
+  <div class="fixed inset-0 bg-blueprint-dots pointer-events-none z-0 no-print"></div>
+  <div class="fixed inset-0 hero-aurora pointer-events-none z-0 no-print"></div>
+
+  <!-- Toast Notification Banner -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 translate-y-24 opacity-0 pointer-events-none transition-all duration-300 no-print">
+    <div class="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-zinc-900 text-zinc-100 border border-emerald-500/40 shadow-2xl font-mono text-xs">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+      <span id="toast-msg">Copied to clipboard</span>
+    </div>
+  </div>
+
+  <!-- TOP HARDWARE TELEMETRY BAR -->
+  <header class="sticky top-0 z-40 border-b hairline backdrop-blur-xl bg-[var(--bg-primary)]/85 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+      <!-- Unit Identifier -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center font-display font-bold text-sm text-emerald-400 group-hover:bg-emerald-500 group-hover:text-zinc-950 transition-all">
+          KM
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-display font-bold text-sm tracking-tight text-main">KATHIR MUTHUKUMAR</span>
+            <span class="hidden sm:inline-block font-mono text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">REV 2026.SSE</span>
+          </div>
+          <div class="flex items-center gap-1.5 font-mono text-[10px] text-sub">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="truncate max-w-[210px] sm:max-w-none">SENIOR SOFTWARE ENGINEER @ TATA COMMUNICATIONS</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Section Anchors -->
+      <nav class="hidden lg:flex items-center gap-1 px-2 py-1 rounded-full border hairline bg-black/10 dark:bg-white/[0.03]">
+        <a href="#work" class="px-3 py-1.5 rounded-full text-xs font-medium text-sub hover:text-main transition-colors">Work (11)</a>
+        <a href="#projects" class="px-3 py-1.5 rounded-full text-xs font-medium text-sub hover:text-main transition-colors">Projects (04)</a>
+        <a href="#specs" class="px-3 py-1.5 rounded-full text-xs font-medium text-sub hover:text-main transition-colors">Tech Specs</a>
+        <a href="#credentials" class="px-3 py-1.5 rounded-full text-xs font-medium text-sub hover:text-main transition-colors">IEEE &amp; Honors</a>
+      </nav>
+
+      <!-- Utility Controls -->
+      <div class="flex items-center gap-2">
+        <!-- Theme Toggle -->
+        <button onclick="toggleTheme()" title="Toggle Obsidian / Swiss Light Mode" class="p-2 rounded-lg border hairline text-sub hover:text-main transition-colors" aria-label="Toggle theme">
+          <svg id="icon-sun" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg id="icon-moon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+
+        <!-- Command Palette -->
+        <button onclick="openCommandModal()" class="hidden sm:flex items-center gap-2 px-2.5 py-1.5 rounded-lg border hairline text-xs font-mono text-sub hover:text-main transition-colors">
+          <span>Menu</span>
+          <kbd class="kbd-key text-[10px] px-1.5 py-0.5 rounded">⌘K</kbd>
+        </button>
+
+        <!-- Recruiter Connect CTA -->
+        <button onclick="openRecruiterModal()" class="px-3.5 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-semibold text-xs transition-all shadow-sm active:scale-[0.98]">
+          Connect
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="relative z-10">
+
+    <!-- CREATIVE FLAGSHIP LAUNCH HERO -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 pt-10 pb-16 md:pt-16 md:pb-24">
+      
+      <!-- Top Spec Ticker Strip -->
+      <div class="flex flex-wrap items-center justify-between gap-3 pb-6 mb-8 border-b hairline font-mono text-[11px] text-sub">
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 font-semibold">
+            PROMOTED // SENIOR SOFTWARE ENGINEER
+          </span>
+          <span>TATA COMMUNICATIONS • BENGALURU, IN</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <span>CORE: GOLANG • JAVA • PYTHON • K8S</span>
+          <span class="hidden sm:inline text-emerald-400">● OPEN TO HIGH-IMPACT CONVERSATIONS</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        
+        <!-- Left Flagship Pitch (7 Cols) -->
+        <div class="lg:col-span-7 space-y-6">
+          <h1 class="font-display text-4xl sm:text-5xl lg:text-[3.55rem] font-bold tracking-tight leading-[1.05] text-main">
+            Cloud platforms, billing engines &amp; AI agents—<span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">shipped like flagship products.</span>
+          </h1>
+
+          <p class="text-base sm:text-lg text-sub leading-relaxed max-w-2xl">
+            I’m <strong class="text-main font-semibold">Kathir Muthukumar</strong>, a <strong class="text-main font-semibold">Senior Software Engineer at Tata Communications</strong>. I architect distributed backend services, usage-based billing pipelines, and agentic AI infrastructure using <span class="font-mono text-sm text-emerald-400">Golang</span>, <span class="font-mono text-sm text-emerald-400">Java / Spring Boot</span>, <span class="font-mono text-sm text-cyan-400">FastAPI</span>, and <span class="font-mono text-sm text-cyan-400">Kubernetes</span>—turning 3-month enterprise onboarding cycles into self-serve minutes.
+          </p>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap items-center gap-3 pt-1 no-print">
+            <button onclick="openRecruiterModal()" class="inline-flex items-center gap-2.5 px-5 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold text-sm transition-all shadow-lg shadow-emerald-500/20 active:scale-[0.99]">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+              <span>Connect with Kathir</span>
+            </button>
+
+            <button onclick="copyText('mkathirwork@gmail.com', 'Email copied: mkathirwork@gmail.com')" class="inline-flex items-center gap-2 px-4 py-3.5 rounded-xl product-card font-mono text-xs sm:text-sm text-main hover:border-emerald-500/40">
+              <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              <span>mkathirwork@gmail.com</span>
+            </button>
+
+            <button onclick="window.print()" class="inline-flex items-center gap-2 px-4 py-3.5 rounded-xl product-card font-mono text-xs text-sub hover:text-main" title="Save clean resume via browser Print/PDF">
+              <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+              <span>Print / PDF</span>
+            </button>
+          </div>
+
+          <!-- Direct Endpoints & Key Benchmarks Strip -->
+          <div class="grid grid-cols-3 gap-3 pt-4">
+            <div class="product-card rounded-xl p-3.5">
+              <div class="font-mono text-[10px] uppercase text-dim">Onboarding Cut</div>
+              <div class="font-display text-xl sm:text-2xl font-bold text-emerald-400 mt-0.5">3 Mo → Min</div>
+              <div class="text-[11px] text-sub mt-0.5">Self-serve PAYG SaaS</div>
+            </div>
+            <div class="product-card rounded-xl p-3.5">
+              <div class="font-mono text-[10px] uppercase text-dim">Report Speedup</div>
+              <div class="font-display text-xl sm:text-2xl font-bold text-cyan-400 mt-0.5">-35% Time</div>
+              <div class="text-[11px] text-sub mt-0.5">SQL joins &amp; async workers</div>
+            </div>
+            <div class="product-card rounded-xl p-3.5">
+              <div class="font-mono text-[10px] uppercase text-dim">Hackathon &amp; IEEE</div>
+              <div class="font-display text-xl sm:text-2xl font-bold text-amber-400 mt-0.5">Top 5 SIH</div>
+              <div class="text-[11px] text-sub mt-0.5">100+ teams • IEEE 2024</div>
+            </div>
+          </div>
+
+          <!-- Social & Direct Phone Bar -->
+          <div class="flex flex-wrap items-center gap-x-5 gap-y-2 pt-2 font-mono text-xs text-sub">
+            <a href="https://github.com/Kathir363" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 hover:text-emerald-400 transition-colors">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+              <span>github.com/Kathir363</span>
+            </a>
+            <a href="https://www.linkedin.com/in/kathir-m-aa2a491b0" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 hover:text-cyan-400 transition-colors">
+              <svg class="w-4 h-4 text-cyan-400" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+              <span>linkedin.com/in/kathir-m</span>
+            </a>
+            <button onclick="copyText('+91 9080 465244', 'Phone copied: +91 9080 465244')" class="inline-flex items-center gap-1.5 hover:text-main transition-colors">
+              <span>+91 9080 465244</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Interactive Product Simulator Module (5 Cols) -->
+        <div class="lg:col-span-5 no-print">
+          <div class="product-card rounded-2xl overflow-hidden shadow-2xl">
+            <!-- Hardware Module Header -->
+            <div class="px-4 py-3 bg-zinc-950 text-zinc-300 border-b border-white/10 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                <span class="font-mono text-[11px] font-semibold tracking-wider uppercase">LIVE ARCHITECTURE SANDBOX</span>
+              </div>
+              <span class="font-mono text-[10px] text-zinc-500">INTERACTIVE // v2.6</span>
+            </div>
+
+            <!-- 3 Interactive Product Tabs -->
+            <div class="grid grid-cols-3 bg-zinc-900/95 border-b border-white/10 font-mono text-[10px] sm:text-[11px]">
+              <button onclick="setSandboxMode('onboarding')" id="sb-btn-onboarding" class="sb-tab py-3 px-2 text-center border-b-2 border-emerald-400 text-emerald-300 bg-emerald-500/10 font-semibold transition-all">
+                ONBOARDING
+              </button>
+              <button onclick="setSandboxMode('agentic')" id="sb-btn-agentic" class="sb-tab py-3 px-2 text-center border-b-2 border-transparent text-zinc-400 hover:text-zinc-200 transition-all">
+                AI_AGENT
+              </button>
+              <button onclick="setSandboxMode('billing')" id="sb-btn-billing" class="sb-tab py-3 px-2 text-center border-b-2 border-transparent text-zinc-400 hover:text-zinc-200 transition-all">
+                M3TER_BILLING
+              </button>
+            </div>
+
+            <!-- Interactive Sandbox Viewport -->
+            <div id="sandbox-viewport" class="p-5 bg-[#0A0C10] text-zinc-200 font-mono text-xs min-h-[345px] flex flex-col justify-between">
+              <!-- Rendered dynamically by JS -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 01: COMPLETE WORK EXPERIENCE (ALL 11 DELIVERABLES) -->
+    <section id="work" class="max-w-7xl mx-auto px-4 sm:px-6 py-16 border-t hairline">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
+        <div>
+          <div class="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-emerald-400 mb-2">
+            <span>01 // ENTERPRISE PRODUCTION RECORD</span>
+          </div>
+          <h2 class="font-display text-3xl sm:text-4xl font-bold text-main tracking-tight">
+            Tata Communications — Senior Software Engineer
+          </h2>
+          <p class="text-sm text-sub mt-2 max-w-2xl">
+            Bengaluru, India • <span class="font-mono text-main">2024 – Present</span> • All 11 shipped platform subsystems across distributed Java/Spring Boot backends, Golang CLIs, M3ter billing, and multi-agent AI infrastructure.
+          </p>
+        </div>
+
+        <!-- Interactive Category Filters -->
+        <div class="flex flex-wrap items-center gap-1.5 p-1.5 rounded-xl product-card self-start no-print">
+          <button onclick="filterWork('all')" data-wfilter="all" class="work-filter-btn px-3 py-1.5 rounded-lg font-mono text-xs bg-emerald-500 text-zinc-950 font-semibold transition-all">
+            All (11)
+          </button>
+          <button onclick="filterWork('distributed')" data-wfilter="distributed" class="work-filter-btn px-3 py-1.5 rounded-lg font-mono text-xs text-sub hover:text-main transition-all">
+            Cloud &amp; Distributed
+          </button>
+          <button onclick="filterWork('ai')" data-wfilter="ai" class="work-filter-btn px-3 py-1.5 rounded-lg font-mono text-xs text-sub hover:text-main transition-all">
+            AI Agents
+          </button>
+          <button onclick="filterWork('billing')" data-wfilter="billing" class="work-filter-btn px-3 py-1.5 rounded-lg font-mono text-xs text-sub hover:text-main transition-all">
+            Billing &amp; Telemetry
+          </button>
+          <button onclick="filterWork('cli')" data-wfilter="cli" class="work-filter-btn px-3 py-1.5 rounded-lg font-mono text-xs text-sub hover:text-main transition-all">
+            Golang CLI &amp; DX
+          </button>
+        </div>
+      </div>
+
+      <!-- 11 Deliverables Bento Matrix -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+        <!-- 1. SaaS Self-Serve Platform -->
+        <article data-wcat="distributed billing" class="work-card product-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">01 • IMPACT: 3 MO → MIN</span>
+              <span class="font-mono text-[10px] text-dim">WORKFLOW</span>
+            </div>
+            <h3 class="font-display text-lg font-bold text-main mb-2">SaaS Self-Serve Platform</h3>
+            <p class="text-sm text-sub leading-relaxed">
+              Cut onboarding time from <strong class="text-main">3 months to minutes</strong> by building an automated "Pay-As-You-Go" workflow that ties together user sign-up, credit top-up, and artifact deployment APIs.
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t hairline flex flex-wrap gap-1.5 font-mono text-[10px] text-sub">
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">Pay-As-You-Go</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">REST APIs</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">Artifact Deploy</span>
+          </div>
+        </article>
+
+        <!-- 2. Core Java Backend & Infrastructure -->
+        <article data-wcat="distributed" class="work-card product-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">02 • ASYNC CORE</span>
+              <span class="font-mono text-[10px] text-dim">JAVA / SPRING</span>
+            </div>
+            <h3 class="font-display text-lg font-bold text-main mb-2">Core Java Backend &amp; Infrastructure</h3>
+            <p class="text-sm text-sub leading-relaxed">
+              Architected and developed high-performance Spring Boot REST APIs and workflow services leveraging <code class="font-mono text-xs text-emerald-400">ExecutorService</code>, <code class="font-mono text-xs text-emerald-400">CompletableFuture</code>, and asynchronous processing across distributed microservices.
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t hairline flex flex-wrap gap-1.5 font-mono text-[10px] text-sub">
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">Spring Boot</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">CompletableFuture</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">ExecutorService</span>
+          </div>
+        </article>
+
+        <!-- 3. Event-Driven Architecture (P2R) -->
+        <article data-wcat="distributed" class="work-card product-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">03 • P2R PIPELINE</span>
+              <span class="font-mono text-[10px] text-dim">MESSAGING</span>
+            </div>
+            <h3 class="font-display text-lg font-bold text-main mb-2">Event-Driven Architecture (P2R)</h3>
+            <p class="text-sm text-sub leading-relaxed">
+              Managed and optimized all queue listeners for Product-to-Resource (P2R) ordering, ensuring seamless data flow from the Marketing Portal to the Provisioning Portal using <strong class="text-main">RabbitMQ, SQL, and Redis-based buffering</strong>.
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t hairline flex flex-wrap gap-1.5 font-mono text-[10px] text-sub">
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">RabbitMQ</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">Redis Buffering</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">SQL</span>
+          </div>
+        </article>
+
+        <!-- 4. Modernization & Reliability -->
+        <article data-wcat="distributed" class="work-card product-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">04 • MIGRATION</span>
+              <span class="font-mono text-[10px] text-dim">RELIABILITY</span>
+            </div>
+            <h3 class="font-display text-lg font-bold text-main mb-2">Modernization &amp; Reliability</h3>
+            <p class="text-sm text-sub leading-relaxed">
+              Led the end-to-end migration of legacy backend services into a scalable, event-driven architecture, significantly improving system reliability and parallel processing efficiency through optimized distributed patterns.
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t hairline flex flex-wrap gap-1.5 font-mono text-[10px] text-sub">
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">Distributed Patterns</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">Parallel Processing</span>
+          </div>
+        </article>
+
+        <!-- 5. AI Agentic Resource Provisioner -->
+        <article data-wcat="ai distributed" class="work-card product-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">05 • MULTI-AGENT AI</span>
+              <span class="font-mono text-[10px] text-dim">NL → CLOUD</span>
+            </div>
+            <h3 class="font-display text-lg font-bold text-main mb-2">AI Agentic Resource Provisioner</h3>
+            <p class="text-sm text-sub leading-relaxed">
+              Engineered a <strong class="text-main">LangChain-driven multi-agent system</strong> (<code class="font-mono text-xs text-cyan-400">FastAPI + Milvus + OpenWebUI</code>) that provisions cloud resources directly from natural-language commands.
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t hairline flex flex-wrap gap-1.5 font-mono text-[10px] text-sub">
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">LangChain</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">FastAPI</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">Milvus</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">OpenWebUI</span>
+          </div>
+        </article>
+
+        <!-- 6. M3ter Billing Integration -->
+        <article data-wcat="billing distributed" class="work-card product-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">06 • FINOPS ENGINE</span>
+              <span class="font-mono text-[10px] text-dim">METERING</span>
+            </div>
+            <h3 class="font-display text-lg font-bold text-main mb-2">M3ter Billing Integration</h3>
+            <p class="text-sm text-sub leading-relaxed">
+              Managed end-to-end telemetry metering and billing architecture for the core cloud platform; designed multi-tier pricing plans (hourly Pay-As-You-Go &amp; reserved tiers) handling edge-case computations across VMs, networking, storage, and managed fabrics.
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t hairline flex flex-wrap gap-1.5 font-mono text-[10px] text-sub">
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">M3ter</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">Hourly PAYG</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">Reserved Tiers</span>
+          </div>
+        </article>
+
+        <!-- 7. AI Agentic PRD Internal Tool -->
+        <article data-wcat="ai" class="work-card product-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">07 • RAG &amp; RESEARCH</span>
+              <span class="font-mono text-[10px] text-dim">IN-HOUSE LLM</span>
+            </div>
+            <h3 class="font-display text-lg font-bold text-main mb-2">AI Agentic PRD Internal Tool</h3>
+            <p class="text-sm text-sub leading-relaxed">
+              Built an advanced product research &amp; development assistant utilizing <strong class="text-main">FastAPI, SearxNG, Valkey, and MinIO</strong> to perform domain research, deep contextual Q&amp;A over PDFs, and dynamic document updates via in-house LLM APIs.
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t hairline flex flex-wrap gap-1.5 font-mono text-[10px] text-sub">
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">FastAPI</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">SearxNG</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">Valkey</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">MinIO</span>
+          </div>
+        </article>
+
+        <!-- 8. CloudLyte Command Hub -->
+        <article data-wcat="cli distributed" class="work-card product-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">08 • GOLANG CLI</span>
+              <span class="font-mono text-[10px] text-dim">KUBECTL WRAPPER</span>
+            </div>
+            <h3 class="font-display text-lg font-bold text-main mb-2">CloudLyte Command Hub</h3>
+            <p class="text-sm text-sub leading-relaxed">
+              Designed and developed a versatile <code class="font-mono text-xs text-emerald-400">kubectl</code>-wrapper CLI terminal application using <strong class="text-main">Golang and the Cobra library</strong>, allowing seamless deployment across environments to streamline cloud resource provisioning.
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t hairline flex flex-wrap gap-1.5 font-mono text-[10px] text-sub">
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">Golang</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">Cobra CLI</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">Kubernetes</span>
+          </div>
+        </article>
+
+        <!-- 9. CloudLyte Installer UI -->
+        <article data-wcat="cli" class="work-card product-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">09 • TERMINAL UI</span>
+              <span class="font-mono text-[10px] text-dim">GOLANG TVIEW</span>
+            </div>
+            <h3 class="font-display text-lg font-bold text-main mb-2">CloudLyte Installer UI</h3>
+            <p class="text-sm text-sub leading-relaxed">
+              Architected an intuitive, terminal-based user interface (TUI) application utilizing <strong class="text-main">Golang's tview library</strong> to facilitate clear, guided local installations of the flagship product suite.
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t hairline flex flex-wrap gap-1.5 font-mono text-[10px] text-sub">
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">Golang</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">tview TUI</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">Guided Installer</span>
+          </div>
+        </article>
+
+        <!-- 10. Cluster Inventory & Usage Reports Service -->
+        <article data-wcat="billing distributed" class="work-card product-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">10 • -35% LATENCY</span>
+              <span class="font-mono text-[10px] text-dim">PROMETHEUS</span>
+            </div>
+            <h3 class="font-display text-lg font-bold text-main mb-2">Cluster Inventory &amp; Usage Reports</h3>
+            <p class="text-sm text-sub leading-relaxed">
+              Developed highly optimized cluster inventory APIs using advanced SQL joins and asynchronous workers, <strong class="text-main">reducing metric report processing times by 35%</strong>; integrated feature flags to trace dynamic PVC utilization metrics from Prometheus.
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t hairline flex flex-wrap gap-1.5 font-mono text-[10px] text-sub">
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">SQL Joins</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">Prometheus PVC</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">Feature Flags</span>
+          </div>
+        </article>
+
+        <!-- 11. Developer Portal (Backstage CNCF) -->
+        <article data-wcat="cli distributed" class="work-card product-card rounded-2xl p-6 flex flex-col justify-between md:col-span-2 lg:col-span-2">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">11 • INTERNAL DEVELOPER PLATFORM</span>
+              <span class="font-mono text-[10px] text-dim">CNCF BACKSTAGE</span>
+            </div>
+            <h3 class="font-display text-lg font-bold text-main mb-2">Enterprise Developer Portal (CNCF Backstage)</h3>
+            <p class="text-sm text-sub leading-relaxed">
+              Successfully implemented, customized, and configured an enterprise-grade internal developer portal utilizing <strong class="text-main">CNCF Backstage</strong>, packaging it cleanly as a scalable core service component for internal engineering teams.
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t hairline flex flex-wrap gap-1.5 font-mono text-[10px] text-sub">
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">CNCF Backstage</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">Platform Engineering</span>
+            <span class="px-2 py-0.5 rounded bg-white/5 border hairline">Service Catalog</span>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- SECTION 02: FLAGSHIP PROJECTS (ALL 4 PROJECTS) -->
+    <section id="projects" class="max-w-7xl mx-auto px-4 sm:px-6 py-16 border-t hairline">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+        <div>
+          <span class="font-mono text-xs uppercase tracking-widest text-cyan-400">02 // INDEPENDENT &amp; RESEARCH BUILDS</span>
+          <h2 class="font-display text-3xl sm:text-4xl font-bold text-main tracking-tight mt-1">Flagship Engineering Projects</h2>
+        </div>
+        <a href="https://github.com/Kathir363" target="_blank" rel="noopener noreferrer" class="font-mono text-xs text-emerald-400 hover:underline inline-flex items-center gap-1.5">
+          <span>Explore Repositories on GitHub</span>
+          <span>→</span>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Project 1: Kubernetes AI Copilot -->
+        <article class="product-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <span class="font-mono text-xs text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2.5 py-0.5 rounded">PROJECT 01 • LLM INFRASTRUCTURE</span>
+              <span class="font-mono text-[11px] text-dim">MINIKUBE + K8S</span>
+            </div>
+            <h3 class="font-display text-xl font-bold text-main mb-3">Kubernetes AI Copilot</h3>
+            <ul class="space-y-2 text-sm text-sub leading-relaxed list-disc pl-4">
+              <li>Built an intelligent Kubernetes infrastructure management system leveraging a <strong class="text-main">fine-tuned DistilBERT LLM</strong> to map multi-turn natural language queries into automated cluster configuration and diagnostic operations.</li>
+              <li>Maintained complete system encapsulation inside containerized microservices running locally via Minikube deployment manifests.</li>
+            </ul>
+          </div>
+          <div class="mt-6 pt-4 border-t hairline flex flex-wrap gap-1.5 font-mono text-[11px] text-sub">
+            <span class="px-2.5 py-1 rounded bg-white/5 border hairline text-cyan-400">DistilBERT</span>
+            <span class="px-2.5 py-1 rounded bg-white/5 border hairline">Python</span>
+            <span class="px-2.5 py-1 rounded bg-white/5 border hairline">FastAPI</span>
+            <span class="px-2.5 py-1 rounded bg-white/5 border hairline">Docker</span>
+            <span class="px-2.5 py-1 rounded bg-white/5 border hairline">Kubernetes</span>
+          </div>
+        </article>
+
+        <!-- Project 2: DSA Progress Tracking Discord Bot -->
+        <article class="product-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <span class="font-mono text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded">PROJECT 02 • COMMUNITY AUTOMATION</span>
+              <span class="font-mono text-[11px] text-dim">100% ACID INTEGRITY</span>
+            </div>
+            <h3 class="font-display text-xl font-bold text-main mb-3">DSA Progress Tracking Discord Bot</h3>
+            <ul class="space-y-2 text-sm text-sub leading-relaxed list-disc pl-4">
+              <li>Engineered a feature-rich, interactive community Discord bot designed to automate tracking data structures and algorithms metrics directly from active LeetCode accounts.</li>
+              <li>Set up a robust <strong class="text-main">PostgreSQL backend</strong> supporting live multi-tier server leaderboards, progress history mapping, and automated cron daily challenge announcements ensuring 100% database transaction integrity.</li>
+            </ul>
+          </div>
+          <div class="mt-6 pt-4 border-t hairline flex flex-wrap gap-1.5 font-mono text-[11px] text-sub">
+            <span class="px-2.5 py-1 rounded bg-white/5 border hairline text-emerald-400">PostgreSQL</span>
+            <span class="px-2.5 py-1 rounded bg-white/5 border hairline">Python</span>
+            <span class="px-2.5 py-1 rounded bg-white/5 border hairline">Discord.py</span>
+            <span class="px-2.5 py-1 rounded bg-white/5 border hairline">Cron Workers</span>
+          </div>
+        </article>
+
+        <!-- Project 3: College Selector Android App (Project Avidh) -->
+        <article class="product-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <span class="font-mono text-xs text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-0.5 rounded">PROJECT 03 • SIH TOP 5 FINALIST</span>
+              <span class="font-mono text-[11px] text-dim">100+ TEAMS</span>
+            </div>
+            <h3 class="font-display text-xl font-bold text-main mb-3">College Selector Android App (Project Avidh)</h3>
+            <ul class="space-y-2 text-sm text-sub leading-relaxed list-disc pl-4">
+              <li>Created a high-performance Android utility helping student applicants discover relevant collegiate institutions using custom academic weights and preference fields.</li>
+              <li>Recognized as a <strong class="text-main">National Finalist at the Smart India Hackathon</strong>, achieving a Top 5 placement evaluation out of 100+ competing engineering teams.</li>
+            </ul>
+          </div>
+          <div class="mt-6 pt-4 border-t hairline flex flex-wrap gap-1.5 font-mono text-[11px] text-sub">
+            <span class="px-2.5 py-1 rounded bg-white/5 border hairline text-amber-400">Java</span>
+            <span class="px-2.5 py-1 rounded bg-white/5 border hairline">Android Studio</span>
+            <span class="px-2.5 py-1 rounded bg-white/5 border hairline">XML</span>
+            <span class="px-2.5 py-1 rounded bg-white/5 border hairline">Firebase</span>
+          </div>
+        </article>
+
+        <!-- Project 4: Animal Intrusion Detection using YOLO v8 -->
+        <article class="product-card rounded-2xl p-6 sm:p-7 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <span class="font-mono text-xs text-purple-400 bg-purple-500/10 border border-purple-500/20 px-2.5 py-0.5 rounded">PROJECT 04 • IEEE ICACCS 2024</span>
+              <span class="font-mono text-[11px] text-dim">EDGE VISION</span>
+            </div>
+            <h3 class="font-display text-xl font-bold text-main mb-3">Animal Intrusion Detection using YOLO v8</h3>
+            <ul class="space-y-2 text-sm text-sub leading-relaxed list-disc pl-4">
+              <li>Developed an active automated field-intrusion alert machine learning system deployed on low-power <strong class="text-main">Raspberry Pi edge processors</strong>.</li>
+              <li>Implemented bespoke dataset collection, custom weight training routines, and an instant push notification alert API pipeline aimed at bolstering remote agricultural security bounds.</li>
+            </ul>
+          </div>
+          <div class="mt-6 pt-4 border-t hairline flex flex-wrap gap-1.5 font-mono text-[11px] text-sub">
+            <span class="px-2.5 py-1 rounded bg-white/5 border hairline text-purple-400">YOLOv8</span>
+            <span class="px-2.5 py-1 rounded bg-white/5 border hairline">Raspberry Pi</span>
+            <span class="px-2.5 py-1 rounded bg-white/5 border hairline">Python</span>
+            <span class="px-2.5 py-1 rounded bg-white/5 border hairline">Alert API</span>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- SECTION 03: TECHNICAL SPECIFICATION MATRIX -->
+    <section id="specs" class="max-w-7xl mx-auto px-4 sm:px-6 py-16 border-t hairline">
+      <div class="mb-10">
+        <span class="font-mono text-xs uppercase tracking-widest text-emerald-400">03 // HARDWARE &amp; SOFTWARE SPEC SHEET</span>
+        <h2 class="font-display text-3xl sm:text-4xl font-bold text-main tracking-tight mt-1">Complete Technical Stack</h2>
+      </div>
+
+      <div class="product-card rounded-2xl overflow-hidden divide-y hairline">
+        <div class="grid grid-cols-1 md:grid-cols-12 p-5 sm:p-6 gap-4 items-center">
+          <div class="md:col-span-4 font-mono text-xs font-semibold text-emerald-400 uppercase">Languages &amp; Frameworks</div>
+          <div class="md:col-span-8 flex flex-wrap gap-2 font-mono text-xs">
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">Java</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">Golang</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">Python</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">SQL</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">Spring Boot</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">FastAPI</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 p-5 sm:p-6 gap-4 items-center">
+          <div class="md:col-span-4 font-mono text-xs font-semibold text-cyan-400 uppercase">Cloud &amp; DevOps</div>
+          <div class="md:col-span-8 flex flex-wrap gap-2 font-mono text-xs">
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">Kubernetes</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">Docker</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">Minikube</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">ConfigMaps</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">Prometheus</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">RabbitMQ</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 p-5 sm:p-6 gap-4 items-center">
+          <div class="md:col-span-4 font-mono text-xs font-semibold text-purple-400 uppercase">AI &amp; LLMs</div>
+          <div class="md:col-span-8 flex flex-wrap gap-2 font-mono text-xs">
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">Agentic Systems</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">LangChain</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">Milvus (RAG)</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">OpenWebUI</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">Google ADK</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">NLP</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">YOLO v8</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">DistilBERT</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 p-5 sm:p-6 gap-4 items-center">
+          <div class="md:col-span-4 font-mono text-xs font-semibold text-amber-400 uppercase">Databases &amp; Storage</div>
+          <div class="md:col-span-8 flex flex-wrap gap-2 font-mono text-xs">
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">PostgreSQL</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">MySQL</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">Valkey</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">Redis</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">MinIO</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">Firebase</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-main">JDBC</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 p-5 sm:p-6 gap-4 items-center">
+          <div class="md:col-span-4 font-mono text-xs font-semibold text-sub uppercase">Engineering Strengths</div>
+          <div class="md:col-span-8 flex flex-wrap gap-2 font-mono text-xs">
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-sub">Problem Solving</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-sub">Ownership</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-sub">Collaboration</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-sub">Adaptability</span>
+            <span class="px-3 py-1.5 rounded-lg bg-white/5 border hairline text-sub">Technical Communication</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 04: PUBLICATIONS, EDUCATION, CERTIFICATIONS & HACKATHONS -->
+    <section id="credentials" class="max-w-7xl mx-auto px-4 sm:px-6 py-16 border-t hairline">
+      <div class="mb-10">
+        <span class="font-mono text-xs uppercase tracking-widest text-amber-400">04 // VALIDATION &amp; PEDIGREE</span>
+        <h2 class="font-display text-3xl sm:text-4xl font-bold text-main tracking-tight mt-1">IEEE Research, Education &amp; Honors</h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Left 7 Cols: IEEE Publication + Education -->
+        <div class="lg:col-span-7 space-y-6">
+          <!-- IEEE Paper -->
+          <div class="product-card rounded-2xl p-6 border-l-4 border-l-emerald-400">
+            <span class="font-mono text-xs text-emerald-400 uppercase font-semibold">IEEE PEER-REVIEWED PUBLICATION • 2024</span>
+            <h3 class="font-display text-lg sm:text-xl font-bold text-main mt-2">
+              "Animal Intrusion Detection Using YOLO v8 and Raspberry Pi"
+            </h3>
+            <p class="text-sm text-sub mt-2">
+              <strong class="text-main">Kathir, M.</strong>, et al. — <em>Proceedings of the IEEE International Conference on Advanced Computing and Communication Systems (ICACCS 2024)</em>.
+            </p>
+          </div>
+
+          <!-- Education History -->
+          <div class="product-card rounded-2xl p-6 space-y-4">
+            <span class="font-mono text-xs text-cyan-400 uppercase font-semibold">ACADEMIC RECORD</span>
+            
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b hairline">
+              <div>
+                <h4 class="font-display text-base font-bold text-main">Amrita School of Engineering (Chennai)</h4>
+                <p class="text-sm text-sub">Bachelor of Technology in Computer Science and Engineering</p>
+              </div>
+              <span class="font-mono text-xs px-2.5 py-1 rounded bg-white/5 border hairline text-main self-start sm:self-center">2020 – 2024 • 82.5%</span>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b hairline">
+              <div>
+                <h4 class="font-display text-base font-bold text-main">Bharathi Vidya Bhavan (Erode)</h4>
+                <p class="text-sm text-sub">Higher Secondary School</p>
+              </div>
+              <span class="font-mono text-xs px-2.5 py-1 rounded bg-white/5 border hairline text-main self-start sm:self-center">2018 – 2020 • 88.1%</span>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <h4 class="font-display text-base font-bold text-main">The BVB (Erode)</h4>
+                <p class="text-sm text-sub">Secondary School (CBSE)</p>
+              </div>
+              <span class="font-mono text-xs px-2.5 py-1 rounded bg-white/5 border hairline text-main self-start sm:self-center">2008 – 2018 • 88.6%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right 5 Cols: Hackathons + Certifications -->
+        <div class="lg:col-span-5 space-y-6">
+          <!-- Hackathons & Competitions -->
+          <div class="product-card rounded-2xl p-6">
+            <span class="font-mono text-xs text-amber-400 uppercase font-semibold">HACKATHONS &amp; COMPETITIVE ARENA</span>
+            <div class="mt-4 space-y-2.5 font-mono text-xs">
+              <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/25 text-main font-semibold">
+                ★ National Finalist (Top 5) — Smart India Hackathon
+              </div>
+              <div class="flex flex-wrap gap-2 pt-1">
+                <span class="px-2.5 py-1.5 rounded-lg bg-white/5 border hairline text-sub">CodeAgoda Competitor</span>
+                <span class="px-2.5 py-1.5 rounded-lg bg-white/5 border hairline text-sub">Flipkart GRiD 5.0</span>
+                <span class="px-2.5 py-1.5 rounded-lg bg-white/5 border hairline text-sub">Tally Code Brewers</span>
+                <span class="px-2.5 py-1.5 rounded-lg bg-white/5 border hairline text-sub">ShaktiCTF</span>
+                <span class="px-2.5 py-1.5 rounded-lg bg-white/5 border hairline text-sub">Lexington Informatics Tournament CTF</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Certifications -->
+          <div class="product-card rounded-2xl p-6">
+            <span class="font-mono text-xs text-emerald-400 uppercase font-semibold">VERIFIED CERTIFICATIONS (05)</span>
+            <ul class="mt-4 space-y-2 text-xs font-mono text-sub">
+              <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Google Cloud Computing Fundamentals</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Coursera Google Data Analytics Professional</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> AWS Cloud Foundations Level 1</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Udemy Certified Entry-Level Python Programmer</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Cisco Python Essentials &amp; IoT</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- EMBEDDED INTERACTIVE RECRUITER CONNECT CONSOLE -->
+    <section id="connect" class="max-w-7xl mx-auto px-4 sm:px-6 pt-12 pb-20 border-t hairline no-print">
+      <div class="product-card rounded-3xl p-6 sm:p-10 lg:p-12 relative overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-6 space-y-4">
+            <span class="inline-flex items-center gap-2 font-mono text-xs text-emerald-400">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              <span>ZERO-FRICTION RECRUITER &amp; HIRING DESK</span>
+            </span>
+            <h2 class="font-display text-3xl sm:text-4xl font-bold text-main tracking-tight">
+              Hiring for Senior Backend, Cloud, or AI Infrastructure?
+            </h2>
+            <p class="text-sm sm:text-base text-sub leading-relaxed">
+              Launch a pre-formatted email directly from your browser or copy my complete recruiter packet (contact info, current Senior Software Engineer role, and stack highlights) in one click.
+            </p>
+            <div class="flex flex-wrap gap-3 pt-2">
+              <button onclick="openRecruiterModal()" class="px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold text-sm transition-all shadow-lg shadow-emerald-500/20">
+                Open Recruiter Connect Window
+              </button>
+              <button onclick="copyRecruiterPacket()" class="px-4 py-3 rounded-xl border hairline text-main hover:border-emerald-500/40 font-mono text-xs transition-all">
+                Copy Recruiter Packet
+              </button>
+            </div>
+          </div>
+
+          <div class="lg:col-span-6 bg-zinc-950 text-zinc-200 rounded-2xl p-5 sm:p-6 border border-white/10 font-mono text-xs space-y-3">
+            <div class="flex justify-between border-b border-white/10 pb-2.5">
+              <span class="text-zinc-500">CANDIDATE</span>
+              <span class="text-white font-semibold">Kathir Muthukumar</span>
+            </div>
+            <div class="flex justify-between border-b border-white/10 pb-2.5">
+              <span class="text-zinc-500">CURRENT TITLE</span>
+              <span class="text-emerald-400">Senior Software Engineer</span>
+            </div>
+            <div class="flex justify-between border-b border-white/10 pb-2.5">
+              <span class="text-zinc-500">ORGANIZATION</span>
+              <span class="text-white">Tata Communications (Bengaluru)</span>
+            </div>
+            <div class="flex justify-between border-b border-white/10 pb-2.5">
+              <span class="text-zinc-500">DIRECT EMAIL</span>
+              <button onclick="copyText('mkathirwork@gmail.com', 'Email copied!')" class="text-cyan-400 hover:underline">mkathirwork@gmail.com</button>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-zinc-500">MOBILE / WHATSAPP</span>
+              <button onclick="copyText('+91 9080 465244', 'Phone copied!')" class="text-white hover:text-emerald-400">+91 9080 465244</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="mt-10 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-dim">
+        <div>KATHIR MUTHUKUMAR • SENIOR SOFTWARE ENGINEER • BENGALURU</div>
+        <div>PRESS <kbd class="kbd-key px-1.5 py-0.5 rounded text-sub">⌘K</kbd> ANYWHERE FOR QUICK COMMANDS</div>
+      </footer>
+    </section>
+
+  </main>
+
+  <!-- INTERACTIVE RECRUITER CONNECT MODAL (ZERO-BACKEND) -->
+  <div id="recruiter-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/75 backdrop-blur-md no-print">
+    <div class="w-full max-w-lg rounded-2xl bg-zinc-900 text-zinc-100 border border-white/15 shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+      <div class="px-6 py-4 bg-zinc-950 border-b border-white/10 flex items-center justify-between">
+        <div>
+          <span class="font-mono text-[10px] uppercase tracking-wider text-emerald-400">DIRECT DISPATCH // ZERO-BACKEND</span>
+          <h3 class="font-display text-lg font-bold text-white">Connect with Kathir Muthukumar</h3>
+        </div>
+        <button onclick="closeRecruiterModal()" class="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-white/5">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <form onsubmit="launchPrefilledEmail(event)" class="p-6 space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block font-mono text-[10px] uppercase text-zinc-400 mb-1.5">Your Name</label>
+            <input id="rec-name" type="text" required placeholder="e.g. Priya Sharma" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-white/10 text-sm text-white focus:outline-none focus:border-emerald-400" />
+          </div>
+          <div>
+            <label class="block font-mono text-[10px] uppercase text-zinc-400 mb-1.5">Company / Team</label>
+            <input id="rec-company" type="text" required placeholder="e.g. Stripe / Cloud Infra" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-white/10 text-sm text-white focus:outline-none focus:border-emerald-400" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-mono text-[10px] uppercase text-zinc-400 mb-1.5">Opportunity Track</label>
+          <select id="rec-track" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-white/10 text-sm text-white focus:outline-none focus:border-emerald-400">
+            <option value="Senior Backend / Distributed Systems Role">Senior Backend / Distributed Systems Role</option>
+            <option value="AI Infrastructure & Multi-Agent Systems">AI Infrastructure &amp; Multi-Agent Systems</option>
+            <option value="Cloud Platform / Golang / Billing Engineering">Cloud Platform / Golang / Billing Engineering</option>
+            <option value="Architecture Advisory / General Inquiry">Architecture Advisory / General Inquiry</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-mono text-[10px] uppercase text-zinc-400 mb-1.5">Quick Note</label>
+          <textarea id="rec-note" rows="3" required placeholder="Hi Kathir, we'd love to discuss a Senior Software Engineer opportunity on our cloud platform team..." class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-950 border border-white/10 text-sm text-white focus:outline-none focus:border-emerald-400"></textarea>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-2.5 pt-2">
+          <button type="submit" class="flex-1 py-3 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold text-xs transition-all">
+            Launch Pre-Filled Email →
+          </button>
+          <button type="button" onclick="copyRecruiterPacket()" class="py-3 px-4 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-mono text-xs border border-white/10 transition-all">
+            Copy Contact Packet
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- COMMAND PALETTE MODAL (⌘K) -->
+  <div id="command-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/75 backdrop-blur-sm no-print">
+    <div class="w-full max-w-lg rounded-2xl bg-zinc-900 text-zinc-100 border border-white/15 shadow-2xl overflow-hidden" onclick="event.stopPropagation()">
+      <div class="p-3.5 border-b border-white/10 flex items-center gap-3">
+        <span class="font-mono text-emerald-400 text-xs">$</span>
+        <input id="cmd-input" type="text" placeholder="Search actions, sections, or copy endpoints..." class="w-full bg-transparent text-sm text-white placeholder-zinc-500 focus:outline-none font-mono" oninput="renderCmdList(this.value)" />
+        <button onclick="closeCommandModal()" class="text-[10px] font-mono text-zinc-400 px-1.5 py-0.5 rounded border border-white/10">ESC</button>
+      </div>
+      <div id="cmd-list" class="p-2 max-h-72 overflow-y-auto space-y-1 font-mono text-xs"></div>
+    </div>
+  </div>
+
+  <script>
+    // 1. Interactive Hero Architecture Sandbox
+    const sandboxModes = {
+      onboarding: {
+        header: 'saaspipeline.go // Self-Serve PAYG Engine',
+        badge: '3 MONTHS → < 3 MINS',
+        code: `<span class="text-zinc-500">// Automated SaaS Self-Serve Orchestration</span>
+<span class="text-emerald-400">func</span> <span class="text-cyan-300">ProvisionTenant</span>(ctx context.Context, req SignupReq) {
+  user   := auth.<span class="text-amber-300">CreateAccount</span>(req.Email)
+  wallet := billing.<span class="text-amber-300">TopUpCredits</span>(user.ID, req.Credits)
+  <span class="text-emerald-400">return</span> deploy.<span class="text-amber-300">TriggerArtifactAsync</span>(user, wallet)
+}`,
+        kpis: [
+          { k: 'Legacy Manual Cycle', v: '90 Days (Sales + Ops)' },
+          { k: 'New Self-Serve Flow', v: '< 180 Seconds (API Driven)' },
+          { k: 'Concurrency Model', v: 'CompletableFuture + RabbitMQ' }
+        ],
+        ctaLabel: 'Simulate Tenant Onboarding Run',
+        simOutput: '✓ Account created → ✓ Credits verified → ✓ Artifact deployed in 1.42s'
+      },
+      agentic: {
+        header: 'agent_provisioner.py // LangChain + Milvus',
+        badge: 'MULTI-AGENT RAG',
+        code: `<span class="text-zinc-500"># Natural Language -> Cloud Infrastructure</span>
+prompt = <span class="text-amber-300">"Deploy HA Postgres + 3 K8s workers in ap-south-1"</span>
+context = milvus.<span class="text-cyan-300">similarity_search</span>(prompt, k=4)
+plan = langchain_agent.<span class="text-emerald-400">synthesize_manifest</span>(prompt, context)
+k8s_client.<span class="text-cyan-300">apply_validated</span>(plan)`,
+        kpis: [
+          { k: 'Agent Stack', v: 'LangChain + FastAPI + OpenWebUI' },
+          { k: 'PRD Research Engine', v: 'SearxNG + Valkey + MinIO' },
+          { k: 'K8s AI Copilot', v: 'Fine-tuned DistilBERT + Minikube' }
+        ],
+        ctaLabel: 'Run Sample NL Provision Prompt',
+        simOutput: '✓ Intent parsed → ✓ Milvus policy matched → ✓ Manifest applied to cluster'
+      },
+      billing: {
+        header: 'm3ter_telemetry.java // Usage Metering',
+        badge: '-35% REPORT LATENCY',
+        code: `<span class="text-zinc-500">// Hourly PAYG & Reserved Tier Edge Metering</span>
+<span class="text-emerald-400">CompletableFuture</span>&lt;UsageReport&gt; report = workerPool
+  .<span class="text-cyan-300">fetchPrometheusPVC</span>(clusterId, featureFlags)
+  .<span class="text-cyan-300">joinInventorySQL</span>(vmSpecs, networkFabrics)
+  .<span class="text-amber-300">emitM3terEvents</span>(PricingTier.HOURLY_PAYG);`,
+        kpis: [
+          { k: 'Metered Dimensions', v: 'VMs, Storage, Networking, Fabrics' },
+          { k: 'Processing Speedup', v: '35% Faster via SQL Joins + Workers' },
+          { k: 'Telemetry Source', v: 'Prometheus Dynamic PVC Metrics' }
+        ],
+        ctaLabel: 'Simulate M3ter Metering Flush',
+        simOutput: '✓ 14,280 metric events aggregated → ✓ M3ter invoice payload synced'
+      }
+    };
+
+    let currentSandbox = 'onboarding';
+
+    function setSandboxMode(mode) {
+      currentSandbox = mode;
+      const data = sandboxModes[mode];
+
+      document.querySelectorAll('.sb-tab').forEach(btn => {
+        btn.classList.remove('border-emerald-400', 'text-emerald-300', 'bg-emerald-500/10', 'font-semibold');
+        btn.classList.add('border-transparent', 'text-zinc-400');
+      });
+      const active = document.getElementById(`sb-btn-${mode}`);
+      active.classList.remove('border-transparent', 'text-zinc-400');
+      active.classList.add('border-emerald-400', 'text-emerald-300', 'bg-emerald-500/10', 'font-semibold');
+
+      const viewport = document.getElementById('sandbox-viewport');
+      viewport.innerHTML = `
+        <div class="space-y-3">
+          <div class="flex items-center justify-between text-[11px]">
+            <span class="text-zinc-400">${data.header}</span>
+            <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px]">${data.badge}</span>
+          </div>
+          <pre class="p-3 rounded-xl bg-zinc-950 border border-white/10 text-[11px] leading-relaxed overflow-x-auto text-zinc-200">${data.code}</pre>
+          <div class="space-y-1.5 pt-1">
+            ${data.kpis.map(item => `
+              <div class="flex items-center justify-between text-[11px] border-b border-white/5 pb-1">
+                <span class="text-zinc-500">${item.k}</span>
+                <span class="text-zinc-200 font-medium">${item.v}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <div class="pt-3 mt-2 border-t border-white/10">
+          <button onclick="triggerSandboxSim()" class="w-full py-2 px-3 rounded-lg bg-white/5 hover:bg-emerald-500/15 border border-white/10 hover:border-emerald-500/40 text-emerald-300 text-[11px] font-semibold transition-all">
+            ▶ ${data.ctaLabel}
+          </button>
+          <div id="sim-result" class="mt-2 text-[11px] text-emerald-400 hidden"></div>
+        </div>
+      `;
+    }
+
+    function triggerSandboxSim() {
+      const res = document.getElementById('sim-result');
+      res.textContent = sandboxModes[currentSandbox].simOutput;
+      res.classList.remove('hidden');
+    }
+
+    setSandboxMode('onboarding');
+
+    // 2. Work Deliverables Filter
+    function filterWork(category) {
+      document.querySelectorAll('.work-filter-btn').forEach(btn => {
+        if (btn.dataset.wfilter === category) {
+          btn.classList.add('bg-emerald-500', 'text-zinc-950', 'font-semibold');
+          btn.classList.remove('text-sub');
+        } else {
+          btn.classList.remove('bg-emerald-500', 'text-zinc-950', 'font-semibold');
+          btn.classList.add('text-sub');
+        }
+      });
+
+      document.querySelectorAll('.work-card').forEach(card => {
+        const cats = card.dataset.wcat.split(' ');
+        card.style.display = (category === 'all' || cats.includes(category)) ? 'flex' : 'none';
+      });
+    }
+
+    // 3. Theme Switcher (Obsidian Dark / Swiss Blueprint Light)
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.classList.toggle('dark');
+      document.getElementById('icon-sun').classList.toggle('hidden', isDark);
+      document.getElementById('icon-moon').classList.toggle('hidden', !isDark);
+      showToast(isDark ? 'Switched to Obsidian Dark' : 'Switched to Swiss Light');
+    }
+
+    // 4. Toast & Clipboard Utilities
+    let toastTimeout;
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = msg;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 2800);
+    }
+
+    function copyText(text, message) {
+      // Fallback copy helper using a temporary off-screen textarea and execCommand
+      // Works reliably inside sandboxed iframes where the Clipboard API is restricted by permissions policy
+      const fallbackCopy = () => {
+        const el = document.createElement('textarea');
+        el.value = text;
+        el.setAttribute('readonly', '');
+        el.style.position = 'fixed';
+        el.style.opacity = '0';
+        el.style.pointerEvents = 'none';
+        document.body.appendChild(el);
+        el.focus();
+        el.select();
+        try {
+          const successful = document.execCommand('copy');
+          if (successful) {
+            showToast(message);
+          } else {
+            showToast('Press Ctrl/Cmd+C to copy');
+          }
+        } catch (err) {
+          showToast('Clipboard restricted in preview');
+        } finally {
+          document.body.removeChild(el);
+        }
+      };
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text)
+          .then(() => showToast(message))
+          .catch(() => fallbackCopy());
+      } else {
+        fallbackCopy();
+      }
+    }
+
+    function copyRecruiterPacket() {
+      const packet = [
+        'KATHIR MUTHUKUMAR — Senior Software Engineer @ Tata Communications (Bengaluru)',
+        'Stack: Golang, Java, Spring Boot, Python, FastAPI, Kubernetes, RabbitMQ, LangChain, Milvus, M3ter Billing',
+        'Key Impact: Cut SaaS onboarding from 3 months to minutes; reduced cluster metric report latency by 35%; IEEE ICACCS 2024 Author; SIH Top 5 National Finalist.',
+        'Email: mkathirwork@gmail.com | Phone: +91 9080 465244',
+        'GitHub: https://github.com/Kathir363 | LinkedIn: https://www.linkedin.com/in/kathir-m-aa2a491b0'
+      ].join('\n');
+      copyText(packet, 'Complete Recruiter Packet copied!');
+    }
+
+    // 5. Interactive Recruiter Connect Modal
+    function openRecruiterModal() {
+      const m = document.getElementById('recruiter-modal');
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+    }
+
+    function closeRecruiterModal() {
+      const m = document.getElementById('recruiter-modal');
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+    }
+
+    function launchPrefilledEmail(e) {
+      e.preventDefault();
+      const name = document.getElementById('rec-name').value;
+      const company = document.getElementById('rec-company').value;
+      const track = document.getElementById('rec-track').value;
+      const note = document.getElementById('rec-note').value;
+
+      const subject = encodeURIComponent(`[${track}] ${company} × Kathir Muthukumar`);
+      const body = encodeURIComponent(`Hi Kathir,\n\n${note}\n\nBest regards,\n${name}\n${company}`);
+      window.location.href = `mailto:mkathirwork@gmail.com?subject=${subject}&body=${body}`;
+      closeRecruiterModal();
+      showToast('Opening mail client...');
+    }
+
+    // 6. Command Palette (⌘K)
+    const cmdActions = [
+      { label: 'Open Recruiter Connect Window', key: 'C', fn: () => { closeCommandModal(); openRecruiterModal(); } },
+      { label: 'Copy Complete Recruiter Packet', key: 'R', fn: () => copyRecruiterPacket() },
+      { label: 'Copy Email (mkathirwork@gmail.com)', key: 'E', fn: () => copyText('mkathirwork@gmail.com', 'Email copied!') },
+      { label: 'Copy Mobile (+91 9080 465244)', key: 'P', fn: () => copyText('+91 9080 465244', 'Phone copied!') },
+      { label: 'Print / Save Resume as PDF', key: 'D', fn: () => { closeCommandModal(); setTimeout(() => window.print(), 150); } },
+      { label: 'Jump to Tata Communications Work (11)', key: '1', fn: () => { window.location.hash = '#work'; } },
+      { label: 'Jump to Flagship Projects (04)', key: '2', fn: () => { window.location.hash = '#projects'; } },
+      { label: 'Jump to Technical Spec Matrix', key: '3', fn: () => { window.location.hash = '#specs'; } },
+      { label: 'Open GitHub (github.com/Kathir363)', key: 'G', fn: () => window.open('https://github.com/Kathir363', '_blank') },
+      { label: 'Open LinkedIn Profile', key: 'L', fn: () => window.open('https://www.linkedin.com/in/kathir-m-aa2a491b0', '_blank') }
+    ];
+
+    function renderCmdList(query = '') {
+      const filtered = cmdActions.filter(a => a.label.toLowerCase().includes(query.toLowerCase()));
+      window._activeCmds = filtered;
+      document.getElementById('cmd-list').innerHTML = filtered.map((item, i) => `
+        <button onclick="runCmd(${i})" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-left text-zinc-300 hover:bg-emerald-500/15 hover:text-emerald-300 transition-colors">
+          <span>${item.label}</span>
+          <kbd class="kbd-key text-[10px] px-1.5 py-0.5 rounded text-zinc-400">${item.key}</kbd>
+        </button>
+      `).join('');
+    }
+
+    function runCmd(idx) {
+      const cmd = window._activeCmds[idx];
+      if (cmd) {
+        closeCommandModal();
+        cmd.fn();
+      }
+    }
+
+    function openCommandModal() {
+      const m = document.getElementById('command-modal');
+      m.classList.remove('hidden');
+      m.classList.add('flex');
+      renderCmdList('');
+      const inp = document.getElementById('cmd-input');
+      inp.value = '';
+      setTimeout(() => inp.focus(), 40);
+    }
+
+    function closeCommandModal() {
+      const m = document.getElementById('command-modal');
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        const m = document.getElementById('command-modal');
+        m.classList.contains('hidden') ? openCommandModal() : closeCommandModal();
+      } else if (e.key === 'Escape') {
+        closeCommandModal();
+        closeRecruiterModal();
+      }
+    });
+
+    document.getElementById('recruiter-modal').addEventListener('click', closeRecruiterModal);
+    document.getElementById('command-modal').addEventListener('click', closeCommandModal);
+  </script>
+</body>
+</html>
